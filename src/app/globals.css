@@ -2,20 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Left shape */
+.clip-shape-left {
+  clip-path: polygon(0 0, 30% 0, 20% 100%, 0% 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Right shape */
+.clip-shape-right {
+  clip-path: polygon(80% 0, 100% 0, 100% 100%, 70% 100%);
 }
