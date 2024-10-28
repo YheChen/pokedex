@@ -21,7 +21,6 @@ export default function Home() {
           <SearchBar></SearchBar>
           <Button text="Search"></Button>
         </div>
-
         <PokeDex></PokeDex>
       </div>
     </div>
