@@ -25,19 +25,22 @@ export default function PokeDex({
         ▼ INFO
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
-        {/* Sprite */}
-        {pokemonData.sprites?.front_default ? (
-          <Image
-            src={pokemonData.sprites.front_default}
-            alt={pokemonData.name}
-            width={128}
-            height={128}
-            className="rounded shadow-box"
-          />
-        ) : (
-          <div className="bg-gray-300 w-32 h-32 rounded shadow-box"></div>
-        )}
+      <div className="flex-1 flex items-center justify-center -mt-8">
+        {/* Larger White Circle Background for Sprite */}
+        <div className="bg-white w-48 h-48 rounded-full flex items-center justify-center shadow-box">
+          {/* Sprite */}
+          {pokemonData.sprites?.front_default ? (
+            <Image
+              src={pokemonData.sprites.front_default}
+              alt={pokemonData.name}
+              width={150}
+              height={150}
+              className="rounded shadow-box"
+            />
+          ) : (
+            <p className="text-gray-500">No image available</p>
+          )}
+        </div>
       </div>
 
       {/* Right Section for Details */}
