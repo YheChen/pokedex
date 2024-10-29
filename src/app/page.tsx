@@ -11,9 +11,10 @@ export default function Home() {
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonSpeciesData, setPokemonSpeciesData] = useState(null);
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-    console.log("clicked");
+    setLoading(true);
     try {
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${inputValue.toLowerCase()}`
@@ -25,8 +26,31 @@ export default function Home() {
       setPokemonSpeciesData(response1.data);
     } catch (error) {
       console.error("Pokémon not found");
-      setPokemonData(null); // Clear data if not found
+      setPokemonData(null);
       setPokemonSpeciesData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRandomSearch = async () => {
+    const randomId = Math.floor(Math.random() * 1025) + 1;
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon/${randomId}`
+      );
+      const response1 = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon-species/${randomId}`
+      );
+      setPokemonData(response.data);
+      setPokemonSpeciesData(response1.data);
+    } catch (error) {
+      console.error("Pokémon not found");
+      setPokemonData(null);
+      setPokemonSpeciesData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,22 +65,21 @@ export default function Home() {
         <Header />
         {/* Textbox with Buttons */}
         <div className="flex items-center space-x-3 mb-8">
-          <Button
-            text="Random"
-            onClick={() => console.log("Random button clicked")}
-          />
+          <Button text="Random" onClick={handleRandomSearch} />
           <SearchBar
             value={inputValue}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setInputValue(e.target.value)
-            }
+            onChange={(e) => setInputValue(e.target.value)}
           />
           <Button text="Search" onClick={handleSearch} />
         </div>
-        <PokeDex
-          pokemonData={pokemonData}
-          pokemonSpeciesData={pokemonSpeciesData}
-        />
+        {loading ? (
+          <p className="text-white font-bold text-xl">Loading...</p>
+        ) : (
+          <PokeDex
+            pokemonData={pokemonData}
+            pokemonSpeciesData={pokemonSpeciesData}
+          />
+        )}
       </div>
     </div>
   );

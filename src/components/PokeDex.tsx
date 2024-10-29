@@ -40,14 +40,10 @@ export default function PokeDex({
         )}
       </div>
 
-      {/* Right Section for Details, positioned slightly lower */}
+      {/* Right Section for Details */}
       <div className="basis-2/3 flex flex-col space-y-2 pl-8 mt-4">
-        {" "}
-        {/* Changed space-y-4 to space-y-2 */}
-        {/* Pokedex Entry Box */}
         <div className="bg-white shadow-box border-2 border-black rounded-lg p-3 space-y-2 mt-8">
           <div className="bg-red-500 text-white p-2 rounded flex shadow-box items-center">
-            {/* Pokéball Icon positioned before the Dex number */}
             <Image
               src="/images/pokeball.png"
               alt="Pokéball"
@@ -55,67 +51,59 @@ export default function PokeDex({
               height={24}
               className="mr-2"
             />
-
-            {/* Pokémon ID positioned after the Pokéball Icon */}
-            <span className="font-bold">{pokemonData.id}</span>
-
-            {/* Pokémon name centered */}
+            <span className="font-bold">{pokemonData.id ?? "N/A"}</span>
             <span className="font-bold pl-12 capitalize ml-4">
-              {pokemonData.name}
+              {pokemonData.name ?? "Unknown"}
             </span>
           </div>
 
           {/* Title */}
           <div className="bg-gray-200 text-center p-2 rounded shadow-box">
             <span className="text-gray-700 capitalize">
-              {
-                pokemonSpeciesData?.genera?.find(
-                  (g: { language: { name: string } }) =>
-                    g.language.name === "en"
-                )?.genus
-              }{" "}
+              {pokemonSpeciesData?.genera?.find(
+                (g: { language: { name: string } }) => g.language.name === "en"
+              )?.genus || "Unknown Pokémon"}
             </span>
           </div>
 
           {/* Types */}
           <div className="flex items-center space-x-2">
-            {pokemonData.types.map((typeInfo: { type: { name: string } }) => (
-              <div
-                key={typeInfo.type.name}
-                className="bg-gray-400 text-white font-bold py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center capitalize"
-              >
-                {typeInfo.type.name}
-              </div>
-            ))}
-            {/* Height and Weight */}
+            {pokemonData.types &&
+              pokemonData.types.map((typeInfo: { type: { name: string } }) => (
+                <div
+                  key={typeInfo.type.name}
+                  className="bg-gray-400 text-white font-bold py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center"
+                >
+                  {typeInfo.type.name.charAt(0).toUpperCase() +
+                    typeInfo.type.name.slice(1)}
+                </div>
+              ))}
             <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              HT {pokemonData.height / 10} m
+              HT {pokemonData.height ? pokemonData.height / 10 : "N/A"} m
             </div>
             <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              WT {pokemonData.weight / 10} kg
+              WT {pokemonData.weight ? pokemonData.weight / 10 : "N/A"} kg
             </div>
           </div>
         </div>
+
         {/* Abilities Box */}
         <div className="bg-white shadow-box border-2 border-black rounded-lg p-3 space-y-2">
           <div className="flex items-center space-x-2">
-            {/* Label for Abilities */}
             <div className="text-gray-700 font-bold text-xs border-black">
               Abilities
             </div>
-
             {[
-              ...new Set(
-                pokemonData.abilities.map(
+              ...(new Set(
+                pokemonData.abilities?.map(
                   (abilityInfo) => abilityInfo.ability.name
                 )
-              ),
+              ) || []),
             ].map((abilityName) => (
               <div
                 key={abilityName}
                 className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black"
               >
-                {/* Capitalize each word in ability name */}
                 {abilityName
                   .toLowerCase()
                   .replace(/\b\w/g, (char) => char.toUpperCase())}
@@ -123,14 +111,15 @@ export default function PokeDex({
             ))}
           </div>
         </div>
+
         {/* Description Box */}
         <div className="bg-white text-black p-3 rounded-lg shadow-box text-center border-2 border-black">
           {pokemonSpeciesData?.flavor_text_entries
-            .find(
+            ?.find(
               (entry: { language: { name: string } }) =>
                 entry.language.name === "en"
             )
-            ?.flavor_text.replace(/\f/g, " ")}
+            ?.flavor_text.replace(/\f/g, " ") || "Description not available"}
         </div>
       </div>
     </div>
