@@ -11,6 +11,7 @@ import EvolutionChain from "@/components/EvolutionChain";
 export default function Home() {
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonSpeciesData, setPokemonSpeciesData] = useState(null);
+  const [evolutionChainData, setEvolutionChainData] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,10 +26,14 @@ export default function Home() {
       );
       setPokemonData(response.data);
       setPokemonSpeciesData(response1.data);
+      const evolutionUrl = response1.data.evolution_chain.url;
+      const evolutionResponse = await axios.get(evolutionUrl);
+      setEvolutionChainData(evolutionResponse.data);
     } catch (error) {
       console.error("Pokémon not found");
       setPokemonData(null);
       setPokemonSpeciesData(null);
+      setEvolutionChainData(null);
     } finally {
       setLoading(false);
     }
@@ -46,10 +51,14 @@ export default function Home() {
       );
       setPokemonData(response.data);
       setPokemonSpeciesData(response1.data);
+      const evolutionUrl = response1.data.evolution_chain.url;
+      const evolutionResponse = await axios.get(evolutionUrl);
+      setEvolutionChainData(evolutionResponse.data);
     } catch (error) {
       console.error("Pokémon not found");
       setPokemonData(null);
       setPokemonSpeciesData(null);
+      setEvolutionChainData(null);
     } finally {
       setLoading(false);
     }
@@ -85,7 +94,7 @@ export default function Home() {
           <PokeDex
             pokemonData={pokemonData}
             pokemonSpeciesData={pokemonSpeciesData}
-            evolutionChainData={EvolutionChain}
+            evolutionChainData={evolutionChainData}
           />
         )}
       </div>
