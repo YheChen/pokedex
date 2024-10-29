@@ -54,6 +54,11 @@ export default function Home() {
       setLoading(false);
     }
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && inputValue.trim()) {
+      handleSearch();
+    }
+  };
 
   return (
     <div className="relative h-screen bg-sky-300">
@@ -70,6 +75,7 @@ export default function Home() {
           <SearchBar
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <Button text="Search" onClick={handleSearch} />
         </div>
