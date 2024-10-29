@@ -12,8 +12,12 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontSize: {
+        xxs: "0.6rem", // Custom size, slightly smaller than text-xs
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
