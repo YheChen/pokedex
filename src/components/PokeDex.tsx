@@ -5,6 +5,22 @@ interface PokeDexProps {
   pokemonData: PokemonData | null;
   pokemonSpeciesData: PokemonSpeciesData | null;
 }
+interface PokemonData {
+  id: number;
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+  height: number;
+  weight: number;
+  types: { type: { name: string } }[];
+  abilities: { ability: { name: string } }[];
+}
+
+interface PokemonSpeciesData {
+  genera: { language: { name: string }; genus: string }[];
+  flavor_text_entries: { flavor_text: string; language: { name: string } }[];
+}
 
 export default function PokeDex({
   pokemonData,
