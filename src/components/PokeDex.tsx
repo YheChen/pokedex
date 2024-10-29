@@ -1,7 +1,15 @@
 import React from "react";
 import Image from "next/image";
 
-export default function PokeDex({ pokemonData }) {
+interface PokeDexProps {
+  pokemonData: PokemonData | null;
+  pokemonSpeciesData: PokemonSpeciesData | null;
+}
+
+export default function PokeDex({
+  pokemonData,
+  pokemonSpeciesData,
+}: PokeDexProps) {
   if (!pokemonData) {
     return (
       <div className="w-[750px] h-[400px] bg-red-600 rounded-lg shadow-lg flex items-center justify-center">
@@ -40,7 +48,7 @@ export default function PokeDex({ pokemonData }) {
         <div className="bg-white shadow-box border-2 border-black rounded-lg p-3 space-y-2 mt-8">
           <div className="bg-red-500 text-white p-2 rounded flex shadow-box items-center">
             {/* Pokémon ID positioned slightly to the right */}
-            <span className="font-bold ml-9">000</span>
+            <span className="font-bold ml-9">{pokemonData.id}</span>
 
             {/* Pokéball Icon centered */}
             <Image
@@ -52,28 +60,39 @@ export default function PokeDex({ pokemonData }) {
             />
 
             {/* Pokémon name centered */}
-            <span className="font-bold pl-12">Fletchinder</span>
+            <span className="font-bold pl-12 capitalize">
+              {pokemonData.name}
+            </span>
           </div>
 
           {/* Title */}
           <div className="bg-gray-200 text-center p-2 rounded shadow-box">
-            <span className="text-gray-700">Title Pokémon</span>
+            <span className="text-gray-700 capitalize">
+              {
+                pokemonSpeciesData?.genera?.find(
+                  (g: { language: { name: string } }) =>
+                    g.language.name === "en"
+                )?.genus
+              }{" "}
+            </span>
           </div>
 
           {/* Types */}
           <div className="flex items-center space-x-2">
-            <div className="bg-gray-400 text-white font-bold py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              NORMAL
-            </div>
-            <div className="bg-gray-400 text-white font-bold py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              NORMAL
-            </div>
+            {pokemonData.types.map((typeInfo: { type: { name: string } }) => (
+              <div
+                key={typeInfo.type.name}
+                className="bg-gray-400 text-white font-bold py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center capitalize"
+              >
+                {typeInfo.type.name}
+              </div>
+            ))}
             {/* Height and Weight */}
             <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              HT 65'07"
+              HT {pokemonData.height / 10} m
             </div>
             <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-3 rounded shadow-box w-auto h-[36px] flex items-center justify-center">
-              WT 2204.4 lbs
+              WT {pokemonData.weight / 10} kg
             </div>
           </div>
         </div>
@@ -85,23 +104,24 @@ export default function PokeDex({ pokemonData }) {
               Abilities
             </div>
 
-            {/* Two spots for abilities */}
-            <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black">
-              Strong Jaw
-            </div>
-            <div className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black">
-              Stakeout
-            </div>
-            <div className="bg-gray-400 text-white font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black">
-              Adaptability
-            </div>
+            {pokemonData.abilities.map((abilityInfo) => (
+              <div
+                key={abilityInfo.ability.name}
+                className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black"
+              >
+                {abilityInfo.ability.name.replace(/-/g, " ")}
+              </div>
+            ))}
           </div>
         </div>
         {/* Description Box */}
         <div className="bg-white text-black p-3 rounded-lg shadow-box text-center border-2 border-black">
-          "Forests where Shiinotic live are treacherous to enter at night.
-          People confused by its strange lights can never find their way home
-          again."
+          {pokemonSpeciesData?.flavor_text_entries
+            .find(
+              (entry: { language: { name: string } }) =>
+                entry.language.name === "en"
+            )
+            ?.flavor_text.replace(/\f/g, " ")}
         </div>
       </div>
     </div>

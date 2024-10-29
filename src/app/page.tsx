@@ -9,6 +9,7 @@ import PokeDex from "../components/PokeDex";
 
 export default function Home() {
   const [pokemonData, setPokemonData] = useState(null);
+  const [pokemonSpeciesData, setPokemonSpeciesData] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
   const handleSearch = async () => {
@@ -17,11 +18,15 @@ export default function Home() {
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${inputValue.toLowerCase()}`
       );
+      const response1 = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon-species/${inputValue.toLowerCase()}`
+      );
       setPokemonData(response.data);
-      console.log(response.data); // Use response.data here to log the fetched data
+      setPokemonSpeciesData(response1.data);
     } catch (error) {
       console.error("Pokémon not found");
       setPokemonData(null); // Clear data if not found
+      setPokemonSpeciesData(null);
     }
   };
 
@@ -48,7 +53,10 @@ export default function Home() {
           />
           <Button text="Search" onClick={handleSearch} />
         </div>
-        <PokeDex pokemonData={pokemonData} />
+        <PokeDex
+          pokemonData={pokemonData}
+          pokemonSpeciesData={pokemonSpeciesData}
+        />
       </div>
     </div>
   );
