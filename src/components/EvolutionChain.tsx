@@ -11,23 +11,24 @@ const EvolutionChain: React.FC<EvolutionChainProps> = ({ evolutionChain }) => {
 
   // Traverse the evolution chain to gather species names and sprite URLs
   while (currentStage && currentStage.species) {
+    const pokemonId = getPokemonIdFromUrl(currentStage.species.url);
     stages.push({
       name: currentStage.species.name,
-      url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonIdFromUrl(
-        currentStage.species.url
-      )}.png`,
+      url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
     });
+    console.log("Added evolution stage:", currentStage.species.name); // Debug
     currentStage = currentStage.evolves_to[0]; // Move to the next stage
   }
 
-  // Function to extract Pokémon ID from the species URL
   function getPokemonIdFromUrl(url: string) {
     const urlParts = url.split("/");
-    return urlParts[urlParts.length - 2];
+    const id = urlParts[urlParts.length - 2];
+    console.log("Extracted Pokemon ID:", id); // Debug
+    return id;
   }
 
-  // Only render if there are evolution stages available
   if (stages.length === 0) {
+    console.log("No evolution stages found.");
     return null; // Return null to avoid rendering anything if no stages exist
   }
 
