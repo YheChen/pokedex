@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import axios from "axios";
 import Button from "../components/Button";
@@ -10,6 +12,7 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
 
   const handleSearch = async () => {
+    console.log("clicked");
     try {
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${inputValue.toLowerCase()}`

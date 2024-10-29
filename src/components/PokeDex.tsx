@@ -2,6 +2,14 @@ import React from "react";
 import Image from "next/image";
 
 export default function PokeDex({ pokemonData }) {
+  if (!pokemonData) {
+    return (
+      <div className="w-[750px] h-[400px] bg-red-600 rounded-lg shadow-lg flex items-center justify-center">
+        <p className="text-white font-bold text-xl">Search for a Pokémon!</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-[750px] h-[400px] bg-red-600 rounded-lg shadow-lg flex relative p-4 -ml-6">
       {/* Info Header positioned at the top */}
@@ -9,10 +17,19 @@ export default function PokeDex({ pokemonData }) {
         ▼ INFO
       </div>
 
-      {/* Left Section for Sprite */}
       <div className="flex-1 flex items-center justify-center">
-        {/* Sprite Placeholder */}
-        <div className="bg-gray-300 w-32 h-32 rounded shadow-box"></div>
+        {/* Sprite */}
+        {pokemonData.sprites?.front_default ? (
+          <Image
+            src={pokemonData.sprites.front_default}
+            alt={pokemonData.name}
+            width={128}
+            height={128}
+            className="rounded shadow-box"
+          />
+        ) : (
+          <div className="bg-gray-300 w-32 h-32 rounded shadow-box"></div>
+        )}
       </div>
 
       {/* Right Section for Details, positioned slightly lower */}
