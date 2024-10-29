@@ -44,7 +44,7 @@ export default function PokeDex({
 
   return (
     <div
-      className={`w-[750px] h-[400px] bg-red-600 rounded-lg shadow-lg flex relative p-4 -ml-6 border-2 border-black ${
+      className={`w-[830px] h-[400px] bg-red-600 rounded-lg shadow-lg flex relative p-4 -ml-6 border-2 border-black ${
         !imageLoaded ? "opacity-0" : "opacity-100"
       } transition-opacity duration-500`}
     >

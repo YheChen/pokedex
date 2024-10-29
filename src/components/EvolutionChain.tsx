@@ -29,11 +29,16 @@ const EvolutionChain: React.FC<EvolutionChainProps> = ({ evolutionChain }) => {
   }
 
   return (
-    <div className="absolute bottom-4 left-4 w-1/3 flex justify-center items-center space-x-2 pr-2 bottom-12">
+    <div className="absolute bottom-4 left-4 w-1/3 flex justify-center items-center space-x-2 pr-2 bottom-8">
       {stages.map((stage, index) => (
         <React.Fragment key={index}>
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-box">
-            <Image src={stage.url} alt={stage.name} width={48} height={48} />
+          <div className="flex flex-col items-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-box">
+              <Image src={stage.url} alt={stage.name} width={48} height={48} />
+            </div>
+            <div className="mt-1 px-2 py-0.5 bg-white rounded shadow text-xs font-bold text-gray-800">
+              {stage.name.charAt(0).toUpperCase() + stage.name.slice(1)}
+            </div>
           </div>
           {/* Only add an arrow if it's not the last item */}
           {index < stages.length - 1 && (
