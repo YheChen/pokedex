@@ -47,20 +47,20 @@ export default function PokeDex({
         {/* Pokedex Entry Box */}
         <div className="bg-white shadow-box border-2 border-black rounded-lg p-3 space-y-2 mt-8">
           <div className="bg-red-500 text-white p-2 rounded flex shadow-box items-center">
-            {/* Pokémon ID positioned slightly to the right */}
-            <span className="font-bold ml-9">{pokemonData.id}</span>
-
-            {/* Pokéball Icon centered */}
+            {/* Pokéball Icon positioned before the Dex number */}
             <Image
               src="/images/pokeball.png"
               alt="Pokéball"
               width={24}
               height={24}
-              className="mx-2"
+              className="mr-2"
             />
 
+            {/* Pokémon ID positioned after the Pokéball Icon */}
+            <span className="font-bold">{pokemonData.id}</span>
+
             {/* Pokémon name centered */}
-            <span className="font-bold pl-12 capitalize">
+            <span className="font-bold pl-12 capitalize ml-4">
               {pokemonData.name}
             </span>
           </div>
@@ -104,12 +104,21 @@ export default function PokeDex({
               Abilities
             </div>
 
-            {pokemonData.abilities.map((abilityInfo) => (
+            {[
+              ...new Set(
+                pokemonData.abilities.map(
+                  (abilityInfo) => abilityInfo.ability.name
+                )
+              ),
+            ].map((abilityName) => (
               <div
-                key={abilityInfo.ability.name}
+                key={abilityName}
                 className="bg-gray-200 text-gray-700 font-bold text-xs py-1 px-4 rounded shadow-box flex items-center justify-center border-black"
               >
-                {abilityInfo.ability.name.replace(/-/g, " ")}
+                {/* Capitalize each word in ability name */}
+                {abilityName
+                  .toLowerCase()
+                  .replace(/\b\w/g, (char) => char.toUpperCase())}
               </div>
             ))}
           </div>
