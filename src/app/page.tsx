@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 import PokeDex from "../components/PokeDex";
-import EvolutionChain from "@/components/EvolutionChain";
+import EvolutionChain from "../components/EvolutionChain";
 
 export default function Home() {
   const [pokemonData, setPokemonData] = useState(null);
@@ -68,7 +68,7 @@ export default function Home() {
       handleSearch();
     }
   };
-
+  
   return (
     <div className="relative h-screen bg-sky-300">
       {/* Background */}
